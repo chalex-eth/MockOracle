@@ -12,13 +12,10 @@ contract MockOracle {
     Vm constant vm =
         Vm(address(bytes20(uint160(uint256(keccak256("hevm cheat code"))))));
 
-    constructor(
-        string memory pathToRequestJS,
-        string memory assetToFecth,
-        string memory fileName
-    ) {
+    constructor(string memory pathToRequestJS, string memory assetToFecth) {
         fetchData(pathToRequestJS, assetToFecth);
-        loadData(fileName);
+        loadData();
+        deleteFile();
         lastData = oracleData[currentIdx];
         currentTimestamp = 1;
     }
@@ -50,11 +47,18 @@ contract MockOracle {
         vm.ffi(cmds);
     }
 
-    function loadData(string memory fileName) internal {
+    function loadData() internal {
         string[] memory cmds = new string[](2);
         cmds[0] = "cat";
-        cmds[1] = fileName;
+        cmds[1] = "data.txt";
         bytes memory result = vm.ffi(cmds);
         oracleData = abi.decode(result, (uint256[]));
+    }
+
+    function deleteFile() internal {
+        string[] memory cmds = new string[](2);
+        cmds[0] = "rm";
+        cmds[1] = "data.txt";
+        vm.ffi(cmds);
     }
 }

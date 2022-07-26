@@ -4,7 +4,7 @@ import fs from "fs";
 
 const myArgs = process.argv.slice(2);
 const asset = myArgs[0];
-const dataPath = process.cwd() + "/" + asset + ".txt";
+const dataPath = process.cwd() + "/" + "data.txt";
 const res = await fetch("https://api.coingecko.com/api/v3/coins/" + asset + "/market_chart?vs_currency=usd&days=365&interval=daily");
 const data = await res.json();
 
