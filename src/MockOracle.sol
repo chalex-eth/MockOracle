@@ -12,8 +12,12 @@ contract MockOracle {
     Vm constant vm =
         Vm(address(bytes20(uint160(uint256(keccak256("hevm cheat code"))))));
 
-    constructor(string memory asset, string memory fileName) {
-        fetchData(asset);
+    constructor(
+        string memory pathToRequestJS,
+        string memory assetToFecth,
+        string memory fileName
+    ) {
+        fetchData(pathToRequestJS, assetToFecth);
         loadData(fileName);
         lastData = oracleData[currentIdx];
         currentTimestamp = 1;
@@ -35,11 +39,14 @@ contract MockOracle {
         currentTimestamp += currentIdx;
     }
 
-    function fetchData(string memory asset) internal {
+    function fetchData(
+        string memory pathToRequestJS,
+        string memory assetToFecth
+    ) internal {
         string[] memory cmds = new string[](3);
         cmds[0] = "node";
-        cmds[1] = "dataRequest.js";
-        cmds[2] = asset;
+        cmds[1] = pathToRequestJS;
+        cmds[2] = assetToFecth;
         vm.ffi(cmds);
     }
 

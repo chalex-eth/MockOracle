@@ -8,7 +8,7 @@ contract TestMockOracle is Test {
     MockOracle oracle;
 
     function setUp() public {
-        oracle = new MockOracle("ethereum", "ethereum.txt");
+        oracle = new MockOracle("dataRequest.js", "ethereum", "ethereum.txt");
     }
 
     function testSetUp() public {
