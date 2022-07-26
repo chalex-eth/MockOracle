@@ -13,14 +13,14 @@ contract TestMockOracle is Test {
 
     function testSetUp() public {
         uint256[] memory oracleData = oracle.getOracleData();
-        assertEq(oracle.lastData(), oracleData[0]);
+        assertEq(oracle.lastPrice(), oracleData[0]);
         assertEq(oracle.currentTimestamp(), 1);
     }
 
     function testUpdateState() public {
         uint256[] memory oracleData = oracle.getOracleData();
         oracle.updateState();
-        assertEq(oracle.lastData(), oracleData[1]);
+        assertEq(oracle.lastPrice(), oracleData[1]);
         assertEq(oracle.currentTimestamp(), 2);
     }
 
@@ -29,7 +29,7 @@ contract TestMockOracle is Test {
         vm.assume(nJump < 350);
         uint256[] memory oracleData = oracle.getOracleData();
         oracle.updateState(nJump);
-        assertEq(oracle.lastData(), oracleData[nJump]);
+        assertEq(oracle.lastPrice(), oracleData[nJump]);
         assertEq(oracle.currentTimestamp(), nJump + 1);
     }
 }

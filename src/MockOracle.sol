@@ -1,64 +1,37 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {Vm} from "forge-std/Vm.sol";
+import "./DataFecther.sol";
 
-contract MockOracle {
-    uint256[] oracleData;
-    uint256 public lastData;
+contract MockOracle is DataFecther {
+    uint256 public lastPrice;
     uint256 public currentTimestamp;
     uint256 currentIdx;
 
-    Vm constant vm =
-        Vm(address(bytes20(uint160(uint256(keccak256("hevm cheat code"))))));
-
-    constructor(string memory pathToRequestJS, string memory assetToFecth) {
-        fetchData(pathToRequestJS, assetToFecth);
-        loadData();
-        deleteFile();
-        lastData = oracleData[currentIdx];
+    constructor(string memory pathToRequestJS, string memory assetToFecth)
+        DataFecther(pathToRequestJS, assetToFecth)
+    {
+        lastPrice = data[currentIdx];
         currentTimestamp = 1;
     }
 
+    ///@notice Returns the array of the fetched data
     function getOracleData() external view returns (uint256[] memory) {
-        return oracleData;
+        return data;
     }
 
+    ///@notice Move into the next price and the next timestamp
     function updateState() external {
         currentIdx += 1;
-        lastData = oracleData[currentIdx];
+        lastPrice = data[currentIdx];
         currentTimestamp += 1;
     }
 
+    ///@notice Move into the n price and n timestamp
+    ///@param nJump how many step we advance in the data
     function updateState(uint256 nJump) external {
         currentIdx += nJump;
-        lastData = oracleData[currentIdx];
+        lastPrice = data[currentIdx];
         currentTimestamp += currentIdx;
-    }
-
-    function fetchData(
-        string memory pathToRequestJS,
-        string memory assetToFecth
-    ) internal {
-        string[] memory cmds = new string[](3);
-        cmds[0] = "node";
-        cmds[1] = pathToRequestJS;
-        cmds[2] = assetToFecth;
-        vm.ffi(cmds);
-    }
-
-    function loadData() internal {
-        string[] memory cmds = new string[](2);
-        cmds[0] = "cat";
-        cmds[1] = "data.txt";
-        bytes memory result = vm.ffi(cmds);
-        oracleData = abi.decode(result, (uint256[]));
-    }
-
-    function deleteFile() internal {
-        string[] memory cmds = new string[](2);
-        cmds[0] = "rm";
-        cmds[1] = "data.txt";
-        vm.ffi(cmds);
     }
 }
