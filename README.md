@@ -41,7 +41,10 @@ contract ContractTest is Test {
 ```
 
 When creating a new contract you have to parse 2 arguments 
+
 ```  oracle = new MockOracle("lib/MockOracle/dataRequest.js", "ethereum"); ```
+
+
 The first one is the path to the file that the ffi cheatcode will execute, the second one is the asset to fetch from coingecko.
 
 3. Get the data inside your testing env:
