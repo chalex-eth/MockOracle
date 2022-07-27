@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {Vm} from "forge-std/Vm.sol";
+import "forge-std/Vm.sol";
 
 ///@notice This contract use a ffi cheatcode to fetch data (in a form of an encoded uint256[]) using
 /// a JS script and is stored in a uint256[]
