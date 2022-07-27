@@ -1,6 +1,6 @@
 # <h1 align="center"> MockOracle </h1>
 
-** Fetch historical price from CoinGecko and fed these data in the MockOracle contract **
+**Fetch historical price from CoinGecko and fed these data in the MockOracle contract** 
 
 ## Installation
 
