@@ -8,6 +8,8 @@
 forge install chalex-eth/MockOracle
 ```
 
+A version of node should be installed on your computer.
+
 ## Usage
 
 1. Add this import to your script or test:
